@@ -9,15 +9,15 @@ import (
 	jwt "github.com/dgrijalva/jwt-go"
 )
 
-/*Email valor de Email usado en todos los EndPoints */
+//Email valor de Email usado en todos los EndPoints
 var Email string
 
-/*IDUsuario es el ID devuelto del modelo, que se usará en todos los EndPoints */
-var IDUsuario string
+//UserID es el ID devuelto del modelo, que se usará en todos los EndPoints
+var UserID string
 
-/*Proceso token para extraer sus valores */
+//Proceso token para extraer sus valores
 func ProcesoToken(tk string) (*models.Claim, bool, string, error) {
-	miClave := []byte("MastersdelDesarrollo_grupodeFacebook")
+	myKey := []byte("MastersdelDesarrollo_grupodeFacebook")
 	claims := &models.Claim{}
 
 	splitToken := strings.Split(tk, "Bearer")
@@ -28,18 +28,18 @@ func ProcesoToken(tk string) (*models.Claim, bool, string, error) {
 	tk = strings.TrimSpace(splitToken[1])
 
 	tkn, err := jwt.ParseWithClaims(tk, claims, func(token *jwt.Token) (interface{}, error) {
-		return miClave, nil
+		return myKey, nil
 	})
 	if err == nil {
-		_, encontrado, _ := database.UserExist(claims.Email)
-		if encontrado == true {
+		_, userFound, _ := database.UserExist(claims.Email)
+		if userFound {
 			Email = claims.Email
-			IDUsuario = claims.ID.Hex()
+			UserID = claims.ID.Hex()
 		}
-		return claims, encontrado, IDUsuario, nil
+		return claims, userFound, UserID, nil
 	}
 	if !tkn.Valid {
-		return claims, false, string(""), errors.New("token Inválido")
+		return claims, false, string(""), errors.New("token Invalido, no encontrado")
 	}
 	return claims, false, string(""), err
 }

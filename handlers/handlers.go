@@ -13,7 +13,10 @@ import (
 
 func RouterServices() {
 	router := mux.NewRouter()
+	router.HandleFunc("/register", middlew.ValidateDataBase(routers.RegisterUser)).Methods("POST")
 	router.HandleFunc("/login", middlew.ValidateDataBase(routers.Login)).Methods("POST")
+	router.HandleFunc("/supplier/wallet/recharge", middlew.ValidateDataBase(middlew.ValidateJWT(routers.UpdateCredits))).Methods("PUT")
+	router.HandleFunc("/supplier/wallet/historic", middlew.ValidateDataBase(middlew.ValidateJWT(routers.PaymentDetail))).Methods("GET")
 
 	PORT := os.Getenv("PORT")
 	if PORT == "" {

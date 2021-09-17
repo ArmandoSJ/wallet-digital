@@ -9,10 +9,10 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-//IntentoLogin realiza el chequeo de login a la BD
+//realiza la validacion en la base de datos BD
 func Ingresar(email string, password string) (models.User, bool) {
 	usu, userfound, _ := UserExist(email)
-	if userfound == false {
+	if !userfound {
 		return usu, false
 	}
 

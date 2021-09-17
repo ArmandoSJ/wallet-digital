@@ -8,7 +8,7 @@ import (
 /*Genera el encriptado con Json Web Token */
 func GenerateJWT(user models.User) (string, error) {
 
-	miClave := []byte("MastersdelDesarrollo_grupodeFacebook")
+	myKey := []byte("MastersdelDesarrollo_grupodeFacebook")
 
 	payload := jwt.MapClaims{
 		"email":    user.Email,
@@ -20,7 +20,7 @@ func GenerateJWT(user models.User) (string, error) {
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, payload)
-	tokenStr, err := token.SignedString(miClave)
+	tokenStr, err := token.SignedString(myKey)
 	if err != nil {
 		return tokenStr, err
 	}
