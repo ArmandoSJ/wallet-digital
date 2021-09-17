@@ -10,6 +10,6 @@ type Service struct {
 	Servicename string             `bson:"Servicename" json:"Servicename,omitempty"` //user-name
 	Description string             `bson:"description" json:"description,omitempty"`
 	Price       int                `bson:"price" json:"price,omitempty"`
-	Avalible    bool               `bson:"avalible" json:"avalible"`
+	Available   bool               `bson:"available" json:"available"`
 	Category    string             `bson:"category" json:"category,omitempty"`
 }
