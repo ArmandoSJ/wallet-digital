@@ -16,14 +16,6 @@ func InsertService(w http.ResponseWriter, response *http.Request) {
 		http.Error(w, "Error in received data "+err.Error(), 400)
 		return
 	}
-	/*
-		registro := models.Service{
-			Servicename: service.Servicename,
-			Description: service.Description,
-			Price:       service.Price,
-			Available:   service.Available,
-			Category:    service.Category,
-		} */
 
 	_, status, err := database.AddService(service)
 	if err != nil {

@@ -10,36 +10,33 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func GetPaymentDetail(ID string, pagina int64) ([]*models.PaymentDetail, bool) {
+func GetServicesDB(status string) ([]*models.Service, bool) {
 	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
 	defer cancel()
 	db := MongoCN.Database("templatedb")
-	col := db.Collection("detallecompra")
+	col := db.Collection("services")
 
-	var result []*models.PaymentDetail
+	var result []*models.Service
 
 	condicion := bson.M{
-		"usuarioid": ID,
+		"status": status,
 	}
 
-	log.Print(condicion)
 	opciones := options.Find()
 	opciones.SetLimit(20)
-	opciones.SetSort(bson.D{{Key: "fechacompra", Value: -1}})
-	opciones.SetSkip((pagina - 1) * 20)
 
 	cursor, err := col.Find(ctx, condicion, opciones)
 
-	log.Print(cursor)
 	if err != nil {
 		return result, false
 	}
 
 	for cursor.Next(context.TODO()) {
 
-		var registro models.PaymentDetail
+		var registro models.Service
 		err := cursor.Decode(&registro)
 		if err != nil {
+			log.Print(err.Error())
 			return result, false
 		}
 		result = append(result, &registro)

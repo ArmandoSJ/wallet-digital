@@ -18,6 +18,7 @@ func RouterServices() {
 	router.HandleFunc("/supplier/wallet/recharge", middlew.ValidateDataBase(middlew.ValidateJWT(routers.UpdateCredits))).Methods("PUT")
 	router.HandleFunc("/supplier/wallet/historic", middlew.ValidateDataBase(middlew.ValidateJWT(routers.PaymentDetail))).Methods("GET")
 	router.HandleFunc("/supplier/addservice", middlew.ValidateDataBase(middlew.ValidateJWT(routers.InsertService))).Methods("POST")
+	router.HandleFunc("/liberet/services", middlew.ValidateDataBase(middlew.ValidateJWT(routers.GetServices))).Methods("GET")
 	PORT := os.Getenv("PORT")
 	if PORT == "" {
 		PORT = "8080"
