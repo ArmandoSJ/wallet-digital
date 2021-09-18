@@ -26,7 +26,7 @@ func Login(w http.ResponseWriter, response *http.Request) {
 		return
 	}
 	documento, existe := database.Ingresar(user.Email, user.Password)
-	if existe == false {
+	if !existe {
 		http.Error(w, "Usuario y/o Contraseña inválidos ", 400)
 		return
 	}
